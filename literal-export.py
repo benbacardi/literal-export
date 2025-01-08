@@ -130,7 +130,7 @@ class LiteralExporter:
                     "query": RATINGS_QUERY,
                     "variables": {"limit": limit, "offset": offset},
                 },
-            ).json().["data"]["myReviews"]
+            ).json()["data"]["myReviews"]
             for result in ratings:
                 result_data = result["data"]
                 data.append(
