@@ -121,7 +121,7 @@ class LiteralExporter:
         Fetch ratings for books.
         """
         data: list[RatingsExport] = []
-        limit = 100
+        limit = 20
         offset = 0
         while True:
             ratings: list[RatingsAPIResponse] = self.session.post(
@@ -130,7 +130,7 @@ class LiteralExporter:
                     "query": RATINGS_QUERY,
                     "variables": {"limit": limit, "offset": offset},
                 },
-            ).json()["data"]["myReviews"]
+            ).json().["data"]["myReviews"]
             for result in ratings:
                 result_data = result["data"]
                 data.append(
@@ -142,9 +142,9 @@ class LiteralExporter:
                         "text": result_data["text"],
                     }
                 )
-            if len(ratings) < limit:
+            if not ratings:
                 break
-            offset += limit
+            offset += len(ratings)
         return data
 
     def export_ratings(
